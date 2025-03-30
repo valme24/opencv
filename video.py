@@ -9,6 +9,9 @@ while True :
     cv.imshow("video",frame)
     cv.waitKey(1)
 
+vid.release()
+cv.destroyAllWindows()
+
 
 
 
