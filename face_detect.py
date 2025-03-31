@@ -3,21 +3,26 @@ import mediapipe as mp
 #read image 
 # img = cv.imread("images/man.jpg")
 webcam = cv.VideoCapture(0)
-ret,img = webcam.read()
 
-H,W,_ = img.shape
-
+ret = True
+while ret :
+    ret,frame = ret,frame = webcam.read()
+    if not ret :
+        break
+    H,W,_ = frame.shape
 
 
 #detect face
-mp_face_detection = mp.solutions.face_detection
+    mp_face_detection = mp.solutions.face_detection
 
-with mp_face_detection.FaceDetection(model_selection=0,min_detection_confidence=0.5) as face_detection:
-    img_rgb = cv.cvtColor(img,cv.COLOR_RGB2BGR)
-    out = face_detection.process(img_rgb)
-    print(out.detections)
+    with mp_face_detection.FaceDetection(model_selection=0,min_detection_confidence=0.5) as face_detection:
+     
+     img_rgb = cv.cvtColor(frame,cv.COLOR_RGB2BGR)
+     out = face_detection.process(img_rgb)
+     print(out.detections)
 
-    if out.detections is not None :
+     if out.detections is not None :
+
         for detection in out.detections :
           location_data = detection.location_data
           bbox = location_data.relative_bounding_box
@@ -29,13 +34,16 @@ with mp_face_detection.FaceDetection(model_selection=0,min_detection_confidence=
           w = int(w*W)
           h = int(h*H)
 
-          cv.rectangle(img,(x1,y1),(x1+w,y1+h),(0,255,0),10)
+          cv.rectangle(frame,(x1,y1),(x1+w,y1+h),(0,255,0),10)
 
-    cv.imshow("image ",img)
-    cv.waitKey(0) 
+    cv.imshow("image ",frame)
+   
+    if cv.waitKey(40) & 0xFF == ord('q') :
+        break
 
     
 
+ 
 
 
 
