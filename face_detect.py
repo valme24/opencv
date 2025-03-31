@@ -1,7 +1,10 @@
 import cv2 as cv
 import mediapipe as mp
 #read image 
-img = cv.imread("images/man.jpg")
+# img = cv.imread("images/man.jpg")
+webcam = cv.VideoCapture(0)
+ret,img = webcam.read()
+
 H,W,_ = img.shape
 
 
